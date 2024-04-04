@@ -93,28 +93,17 @@ function getPowerFunction(exp) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom(/* ...args */) {
-  throw new Error('Not implemented');
-  // if (!args.length) return null;
-  // if (args.length === 1) return `y = ${args}`;
-  // let out = '';
+function getPolynom(...args) {
+  return (input) => {
+    if (!args.length) return null;
 
-  // args.forEach((el, ind) => {
-  //   const xPow = args.length - 1 - ind;
-  //   let sight = '+';
-  //   let num = `${el}*`;
-  //   let pow = `x^${xPow}`;
-  //   if (!+el.toString()[0]) {
-  //     sight = '-';
-  //     num = +el.toString()[1];
-  //   }
-  //   if (el === 1) num = '';
-  //   if (xPow === 0) pow = '*';
-  //   if (xPow === 1) pow = 'x';
-
-  //   out += ` ${sight} ${num}${pow}`;
-  // });
-  // return `y = ${out.trimStart().slice(2, out.length - args.length)}`;
+    let output = 0;
+    args.forEach((el, ind) => {
+      const xPow = args.length - ind - 1;
+      output += el * input ** xPow;
+    });
+    return output;
+  };
 }
 
 /**
