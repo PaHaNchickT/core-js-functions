@@ -146,7 +146,7 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-  return function test() {
+  return () => {
     let attempt = 0;
     while (attempt < attempts) {
       try {
@@ -185,8 +185,29 @@ function retry(func, attempts) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(/* func, logFunc */) {
-  throw new Error('Not implemented');
+function logger(func, logFunc) {
+  return (...args) => {
+    const functionName = func.name || 'anonymous';
+
+    // Log the start of the function call
+    logFunc(
+      `${functionName}(${args
+        .map((arg) => JSON.stringify(arg))
+        .join(',')}) starts`
+    );
+
+    // Call the function
+    const result = func.apply(this, args);
+
+    // Log the end of the function call
+    logFunc(
+      `${functionName}(${args
+        .map((arg) => JSON.stringify(arg))
+        .join(',')}) ends`
+    );
+
+    return result;
+  };
 }
 
 /**
